@@ -16,14 +16,20 @@ def minOperations(n):
     Returns:
     int: The minimum number of operations required to achieve `n` 'H' characters.
     """
-
     if n <= 1:
         return 0
 
-    dp = [0] * (n + 1)
-    dp[1] = 1
-    dp[2] = 2
-    for i in range(3, n + 1):
-        dp[i] = 1 + min(dp[i - 1], dp[i // 2] + i % 2)
+    current = 1
+    clipboard = current
+    mN = 0
 
-    return dp[n]
+    while current < n:
+        if n % current == 0:
+            clipboard = current
+            current = 2 * clipboard
+            mN += 2
+        else:
+            current += clipboard
+            mN += 1
+
+    return mN
